@@ -33,7 +33,11 @@ func HeuristicMoveSpace(snapshot agent.GameSnapshot) float64 {
 func markOccupiedSpaces(board [][]bool, snapshot agent.GameSnapshot) {
 	// Mark snake bodies
 	for _, snake := range snapshot.Snakes() {
-		for _, point := range snake.Body() {
+		
+		if snake.Health() == 0 {
+			continue
+		}
+		for _, point := range snake.Body() {			
 			board[point.Y][point.X] = true
 		}
 	}

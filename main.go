@@ -18,8 +18,10 @@ func main() {
 
 	portfolio := agent.NewPortfolio(
 		agent.NewHeuristic(1.0, "team-health", HeuristicHealth),
-		agent.NewHeuristic(4.0, "food", HeuristicFood),
-		agent.NewHeuristic(1.0, "Space to move around in", HeuristicMoveSpace),
+		agent.NewHeuristic(3.53, "food", HeuristicFood),
+		agent.NewHeuristic(0.9, "Space to move around in", HeuristicMoveSpace),
+		agent.NewHeuristic(0.9, "Head to head", HeuristicAvoidCollisions),
+		agent.NewHeuristic(0.2, "Min A* for me max A* for enemy", HeuristicAStarFoodDistance),
 	)
 
 	snakeAgent := agent.NewSnakeAgent(portfolio, metadata)
