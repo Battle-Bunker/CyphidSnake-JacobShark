@@ -1,45 +1,52 @@
 package main
 
 import (
-	"github.com/Battle-Bunker/cyphid-snake/agent"
-	"github.com/BattlesnakeOfficial/rules"
-)
-import (
 	"math"
+
+	"github.com/BattlesnakeOfficial/rules"
+	"github.com/Battle-Bunker/cyphid-snake/agent"
 )
 
-// heuristicHealth calculates the sum of health for all snakes in your team,
-// including the player's snake.
-// Calculates all of the health of all the agents in your team and returns it as an integer. (written by jacob)
-func HeuristicFood(gs agent.GameSnapshot) float64 {
-	you := gs.You()
-	head := you.Head()
-	food := gs.Food()
+// HeuristicFoodProximity calculates a score based on the proximity of team snakes to food
+func HeuristicFoodProximity(snapshot agent.GameSnapshot) float64 {
+	var totalScore float64
 
-	head = you.Body()[1]
+	for _, snake := range snapshot.YourTeam() {
+		if !snake.Alive() {
+			continue
+		}
 
-	if len(food) == 0 {
-		return 0
+		closestFoodDistance := closestFoodDistance(snake.Head(), snapshot.Food())
+		if closestFoodDistance == math.MaxFloat64 {
+			continue // No food on the board
+		}
+
+		// Score is inversely proportional to the distance to the closest food
+		// We add 1 to avoid division by zero and to give some value even when on food
+		snakeScore := 100.0 / (closestFoodDistance + 1)
+		totalScore += snakeScore
 	}
 
-	lowestDist := math.Inf(1)
+	return totalScore
+}
 
-	for _, foodPoint := range food {
-		dist := euclideanDistance(head, foodPoint)
-		if dist < lowestDist {
-			lowestDist = dist
+// closestFoodDistance calculates the Manhattan distance to the closest food
+func closestFoodDistance(head rules.Point, food []rules.Point) float64 {
+	if len(food) == 0 {
+		return math.MaxFloat64
+	}
+
+	closestDistance := math.MaxFloat64
+	for _, f := range food {
+		distance := manhattanDistance(head, f)
+		if distance < closestDistance {
+			closestDistance = distance
 		}
 	}
-
-	return lowestDist
-
-}
-func manhattanDistance(p1 rules.Point, p2 rules.Point) int {
-	return int(math.Abs(float64(p1.X-p2.X)) + math.Abs(float64(p1.Y-p2.Y)))
+	return closestDistance
 }
 
-func euclideanDistance(p1, p2 rules.Point) float64 {
-	dx := float64(p1.X - p2.X)
-	dy := float64(p1.Y - p2.Y)
-	return math.Sqrt(dx*dx + dy*dy)
+// manhattanDistance calculates the Manhattan distance between two points
+func manhattanDistance(p1, p2 rules.Point) float64 {
+	return math.Abs(float64(p1.X-p2.X)) + math.Abs(float64(p1.Y-p2.Y))
 }
