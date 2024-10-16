@@ -6,6 +6,8 @@ github.com/Battle-Bunker/cyphid-snake v1.0.1 h1:mkaGUfIOSJzMmBa3bONxpA4+RpMK/028
 github.com/Battle-Bunker/cyphid-snake v1.0.1/go.mod h1:0hJQTr3CYZnTmvpMKKWWa5S7EJS+FMews2efo6Lq4oA=
 github.com/Battle-Bunker/cyphid-snake v1.0.6 h1:QEdnfPiClY7W5nT34H9iHJCh6Wd35xk1YZpkhX8c/uk=
 github.com/Battle-Bunker/cyphid-snake v1.0.6/go.mod h1:oqNiKQKgKa+VVc6xAY23uEwX53Lr0L/6PUiQ8o/5BZ8=
+github.com/Battle-Bunker/cyphid-snake v1.0.10 h1:rP2/ocVePJfMR0oLLRNmQlxW4b+BP/mf3WRhU71QVAg=
+github.com/Battle-Bunker/cyphid-snake v1.0.10/go.mod h1:oqNiKQKgKa+VVc6xAY23uEwX53Lr0L/6PUiQ8o/5BZ8=
 github.com/BattlesnakeOfficial/rules v1.2.3 h1:loESL0qdvO31WbBIhd3VCsLrmfeqqx4F715UejagLrk=
 github.com/BattlesnakeOfficial/rules v1.2.3/go.mod h1:/q/fRd/c3bZm78r/12LV4zavN1MwKg6xtkYzpgOprtg=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -27,3 +29,5 @@ golang.org/x/text v0.16.0 h1:a94ExnEXNtEwYLGJSIUxnWoxoRz/ZcCsV63ROupILh4=
 golang.org/x/text v0.16.0/go.mod h1:GhwF1Be+LQoKShO3cGOHzqOgRrGaYc9AvblQOmPVHnI=
 golang.org/x/text v0.17.0 h1:XtiM5bkSOt+ewxlOE/aE/AKEHibwj/6gvWMl9Rsh0Qc=
 golang.org/x/text v0.17.0/go.mod h1:BuEKDfySbSR4drPmRPG/7iBdf8hvFMuRexcpahXilzY=
+golang.org/x/text v0.19.0 h1:kTxAhCbGbxhK0IwgSKiMO5awPoDQ0RpfiVYBfK860YM=
+golang.org/x/text v0.19.0/go.mod h1:BuEKDfySbSR4drPmRPG/7iBdf8hvFMuRexcpahXilzY=

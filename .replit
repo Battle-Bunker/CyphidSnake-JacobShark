@@ -10,7 +10,7 @@ requiredFiles = [".replit"]
 [deployment]
 run = ["sh", "-c", "go run ."]
 ignorePorts = false
-deploymentTarget = "gce"
+deploymentTarget = "cloudrun"
 
 [[ports]]
 localPort = 8000
