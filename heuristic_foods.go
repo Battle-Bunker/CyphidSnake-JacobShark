@@ -16,6 +16,8 @@ func HeuristicFood(gs agent.GameSnapshot) float64 {
 	head := you.Head()
 	food := gs.Food()
 
+	head = you.Body()[1]
+
 	if len(food) == 0 {
 		return math.Inf(1) // Return positive infinity if there's no food
 	}
