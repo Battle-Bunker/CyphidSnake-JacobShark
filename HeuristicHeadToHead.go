@@ -55,15 +55,16 @@ func isUnsafeMove(pos rules.Point, snapshot agent.GameSnapshot) bool {
 
 // Helper function to check if two points are adjacent
 func isAdjacentTo(p1, p2 rules.Point) bool {
-  dx := abs(int(p1.X - p2.X))
-  dy := abs(int(p1.Y - p2.Y))
+  dx := abso(float64(p1.X - p2.X))
+  dy := abso(float64(p1.Y - p2.Y))
   return (dx == 1 && dy == 0) || (dx == 0 && dy == 1)
+
 }
 
 // Helper function for absolute value
-func abs(x int) int {
+func abso(x float64) float64 {
   if x < 0 {
-    return -x
+    return float64(-x)
   }
-  return x
+  return float64(x)
 }

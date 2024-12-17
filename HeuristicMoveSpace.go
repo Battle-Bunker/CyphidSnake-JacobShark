@@ -1,67 +1,81 @@
 package main
 
 import (
-	"github.com/Battle-Bunker/cyphid-snake/agent"
+		"github.com/BattlesnakeOfficial/rules"
+		"github.com/Battle-Bunker/cyphid-snake/agent"
 )
 
-// HeuristicMoveSpace calculates the number of contiguous empty spaces
-// available to the snake, which represents its freedom of movement.
+// HeuristicReachableSpace returns a score based on the total number of spaces
+// reachable by our team's snakes through flood fill
 func HeuristicMoveSpace(snapshot agent.GameSnapshot) float64 {
-	// Get the board dimensions
-	width := snapshot.Width()
-	height := snapshot.Height()
+		totalSpace := 0.0
 
-	// Create a 2D grid to represent the board
-	board := make([][]bool, height)
-	for i := range board {
-		board[i] = make([]bool, width)
-	}
+		// For each snake in our team
+		for _, snake := range snapshot.YourTeam() {
+				if !snake.Alive() {
+						continue
+				}
 
-	// Mark occupied spaces
-	markOccupiedSpaces(board, snapshot)
+				// Calculate reachable spaces from this snake's head
+				reachable := floodFill(snapshot, snake.Head(), makeOccupiedMap(snapshot))
+				totalSpace += float64(reachable)
+		}
 
-	// Find the head of our snake
-	head := snapshot.You().Head()
-
-	// Perform a flood fill from the head to count available spaces
-	availableSpaces := floodFill(board, head.X, head.Y)
-
-	return float64(availableSpaces)
+		return totalSpace
 }
 
-// markOccupiedSpaces marks all occupied spaces on the board
-func markOccupiedSpaces(board [][]bool, snapshot agent.GameSnapshot) {
-	// Mark snake bodies
-	for _, snake := range snapshot.Snakes() {
-		
-		if snake.Health() == 0 {
-			continue
+// floodFill returns the number of spaces reachable from the start point
+func floodFill(snapshot agent.GameSnapshot, start rules.Point, occupied map[rules.Point]bool) int {
+		if occupied[start] {
+				return 0
 		}
-		for _, point := range snake.Body() {			
-			board[point.Y][point.X] = true
-		}
-	}
 
-	// Mark hazards
-	for _, hazard := range snapshot.Hazards() {
-		board[hazard.Y][hazard.X] = true
-	}
+		count := 1
+		occupied[start] = true
+
+		// Check all four adjacent spaces (no diagonals)
+		directions := []rules.Point{
+				{X: 0, Y: 1},  // up
+				{X: 0, Y: -1}, // down
+				{X: 1, Y: 0},  // right
+				{X: -1, Y: 0}, // left
+		}
+
+		for _, dir := range directions {
+				next := rules.Point{
+						X: start.X + dir.X,
+						Y: start.Y + dir.Y,
+				}
+
+				// Check if the point is within bounds
+				if next.X >= 0 && next.X < snapshot.Width() &&
+					 next.Y >= 0 && next.Y < snapshot.Height() &&
+					 !occupied[next] {
+						count += floodFill(snapshot, next, occupied)
+				}
+		}
+
+		return count
 }
 
-// floodFill performs a flood fill algorithm to count contiguous empty spaces
-func floodFill(board [][]bool, x, y int) int {
-	if x < 0 || y < 0 || y >= len(board) || x >= len(board[0]) || board[y][x] {
-		return 0
-	}
+// makeOccupiedMap creates a map of occupied spaces from snake bodies
+func makeOccupiedMap(snapshot agent.GameSnapshot) map[rules.Point]bool {
+		occupied := make(map[rules.Point]bool)
 
-	board[y][x] = true
-	count := 1
+		// Mark all snake body segments as occupied
+		for _, snake := range snapshot.AllSnakes() {
+				if !snake.Alive() {
+						continue
+				}
+				for _, segment := range snake.Body() {
+						occupied[segment] = true
+				}
+		}
 
-	// Recursively fill in all four directions
-	count += floodFill(board, x+1, y)
-	count += floodFill(board, x-1, y)
-	count += floodFill(board, x, y+1)
-	count += floodFill(board, x, y-1)
+		// Mark hazards as occupied
+		for _, hazard := range snapshot.Hazards() {
+				occupied[hazard] = true
+		}
 
-	return count
+		return occupied
 }

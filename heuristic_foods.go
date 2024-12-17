@@ -1,49 +1,31 @@
 package main
 
 import (
-	"math"
 
-	"github.com/BattlesnakeOfficial/rules"
 	"github.com/Battle-Bunker/cyphid-snake/agent"
+	"github.com/BattlesnakeOfficial/rules"
+	"math"
 )
 
-// HeuristicFoodProximity calculates a score based on the proximity of team snakes to food
 func HeuristicFoodProximity(snapshot agent.GameSnapshot) float64 {
-	var totalScore float64
-
-	for _, snake := range snapshot.YourTeam() {
-		if !snake.Alive() {
-			continue
-		}
-
-		closestFoodDistance := closestFoodDistance(snake.Head(), snapshot.Food())
-		if closestFoodDistance == math.MaxFloat64 {
-			continue // No food on the board
-		}
-
-		// Score is inversely proportional to the distance to the closest food
-		// We add 1 to avoid division by zero and to give some value even when on food
-		snakeScore := 100.0 / (closestFoodDistance + 1)
-		totalScore += snakeScore
+	// Initialize biggestMD to a very large value to ensure the first distance is always smaller.
+	biggestMD := math.MaxFloat64
+	if snapshot.You().Health() == 100 {
+		return 40
 	}
-
-	return totalScore
-}
-
-// closestFoodDistance calculates the Manhattan distance to the closest food
-func closestFoodDistance(head rules.Point, food []rules.Point) float64 {
-	if len(food) == 0 {
-		return math.MaxFloat64
-	}
-
-	closestDistance := math.MaxFloat64
-	for _, f := range food {
-		distance := manhattanDistance(head, f)
-		if distance < closestDistance {
-			closestDistance = distance
+	// Find the closest food to the snake's head
+	for i := range snapshot.Food() {
+		food := snapshot.Food()[i]
+		distance := manhattanDistance(rules.Point{X: snapshot.You().Head().X, Y: snapshot.You().Head().Y}, food)
+		if distance < biggestMD {
+			biggestMD = distance
 		}
 	}
-	return closestDistance
+
+	// Calculate the score.  The score is higher when the snake is closer to food,
+	// and is also influenced by the snake's health. A healthier snake might get
+	// a slightly higher score.
+	return 100.0 / (biggestMD + 1) * (1 - float64(snapshot.You().Health()) / 100)
 }
 
 // manhattanDistance calculates the Manhattan distance between two points
