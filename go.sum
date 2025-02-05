@@ -10,6 +10,8 @@ github.com/Battle-Bunker/cyphid-snake v1.0.10 h1:rP2/ocVePJfMR0oLLRNmQlxW4b+BP/m
 github.com/Battle-Bunker/cyphid-snake v1.0.10/go.mod h1:oqNiKQKgKa+VVc6xAY23uEwX53Lr0L/6PUiQ8o/5BZ8=
 github.com/Battle-Bunker/cyphid-snake v1.0.13 h1:jqtd+XxtilgQda215abxf9o8octIF9FzVG/CPhji5OE=
 github.com/Battle-Bunker/cyphid-snake v1.0.13/go.mod h1:oqNiKQKgKa+VVc6xAY23uEwX53Lr0L/6PUiQ8o/5BZ8=
+github.com/Battle-Bunker/cyphid-snake v1.0.15 h1:26FaAsWlTcN+BjVM/PrdJrcjpBS34TQFNBHd556OmD0=
+github.com/Battle-Bunker/cyphid-snake v1.0.15/go.mod h1:oqNiKQKgKa+VVc6xAY23uEwX53Lr0L/6PUiQ8o/5BZ8=
 github.com/BattlesnakeOfficial/rules v1.2.3 h1:loESL0qdvO31WbBIhd3VCsLrmfeqqx4F715UejagLrk=
 github.com/BattlesnakeOfficial/rules v1.2.3/go.mod h1:/q/fRd/c3bZm78r/12LV4zavN1MwKg6xtkYzpgOprtg=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -22,6 +24,8 @@ github.com/samber/lo v1.46.0 h1:w8G+oaCPgz1PoCJztqymCFaKwXt+5cCXn51uPxExFfQ=
 github.com/samber/lo v1.46.0/go.mod h1:RmDH9Ct32Qy3gduHQuKJ3gW1fMHAnE/fAzQuf6He5cU=
 github.com/samber/lo v1.47.0 h1:z7RynLwP5nbyRscyvcD043DWYoOcYRv3mV8lBeqOCLc=
 github.com/samber/lo v1.47.0/go.mod h1:RmDH9Ct32Qy3gduHQuKJ3gW1fMHAnE/fAzQuf6He5cU=
+github.com/samber/lo v1.49.0 h1:AGnTnQrg1jpFuwECPUSoxZCfVH5W22b605kWSry3YxM=
+github.com/samber/lo v1.49.0/go.mod h1:dO6KHFzUKXgP8LDhU0oI8d2hekjXnGOu0DB8Jecxd6o=
 github.com/samber/mo v1.13.0 h1:LB1OwfJMju3a6FjghH+AIvzMG0ZPOzgTWj1qaHs1IQ4=
 github.com/samber/mo v1.13.0/go.mod h1:BfkrCPuYzVG3ZljnZB783WIJIGk1mcZr9c9CPf8tAxs=
 github.com/spf13/jwalterweatherman v1.1.0 h1:ue6voC5bR5F8YxI5S67j9i582FU4Qvo2bmqnqMYADFk=

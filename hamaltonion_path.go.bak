@@ -1,0 +1,66 @@
+// heuristicHealth calculates the sum of health for all snakes in your team,
+// including the player's snake.
+// Calculates all of the health of all the agents in your team and returns it as an integer.
+package main
+
+import (
+  _"github.com/Battle-Bunker/cyphid-snake/agent"
+  _"github.com/BattlesnakeOfficial/rules"
+  _"container/heap"
+  _"math"
+)
+
+// hamiltonianHeuristic evaluates if a given position is part of a Hamiltonian path.
+// Returns -4 if it's not a Hamiltonian path position.
+func hamiltonianHeuristic(position []int, graph [][]bool) float64 {
+    if !isHamiltonianPath(position, graph) {
+        return float64(-4)
+    }
+    return float64(0)
+}
+
+// isHamiltonianPath checks if a given position represents a valid Hamiltonian path using a backtracking algorithm.
+func isHamiltonianPath(path []int, adjacencyMatrix [][]bool) bool {
+    numberOfNodes := len(adjacencyMatrix)
+    if len(path) != numberOfNodes {
+        return false
+    }
+
+    visitedNodes := make([]bool, numberOfNodes)
+    for i := 0; i < numberOfNodes; i++ {
+        visitedNodes[i] = false
+    }
+
+    // Mark the first node as visited
+    visitedNodes[path[0]] = true
+
+    return hamiltonianPathUtility(adjacencyMatrix, path, visitedNodes, 1)
+}
+
+// hamiltonianPathUtility utility function to check Hamiltonian path using backtracking
+func hamiltonianPathUtility(adjacencyMatrix [][]bool, path []int, visitedNodes []bool, position int) bool {
+    numberOfNodes := len(adjacencyMatrix)
+
+    if position == numberOfNodes {
+        // If all nodes are included in the path
+        return true
+    }
+
+    // Try different nodes as the next candidate in the Hamiltonian Path
+    for vertex := 0; vertex < numberOfNodes; vertex++ {
+        if adjacencyMatrix[path[position-1]][vertex] && !visitedNodes[vertex] {
+            // Check if this vertex can be added to the path
+            path[position] = vertex
+            visitedNodes[vertex] = true
+
+            if hamiltonianPathUtility(adjacencyMatrix, path, visitedNodes, position+1) {
+                return true
+            }
+
+            // If adding vertex doesn't lead to a solution, remove it
+            visitedNodes[vertex] = false
+        }
+    }
+
+    return false
+}

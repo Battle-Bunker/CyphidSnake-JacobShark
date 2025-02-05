@@ -2,7 +2,6 @@ package main
 
 import (
     _ "github.com/BattlesnakeOfficial/rules"
-    _ "github.com/Battle-Bunker/cyphid-snake/agent"
     "github.com/Battle-Bunker/cyphid-snake/agent"
 )
 
@@ -10,33 +9,26 @@ import (
 // to each allied snake. For each snake, it looks at the immediate squares
 // available for forward movement and assigns a higher score when more squares
 // are accessible.
-func HeuristicOpenSpace(snapshot agent.GameSnapshot) float64 {
-    totalScore := 0.0
-    allySnakes := snapshot.YourTeam()
+func HeuristicOpenSpaceFloodFill(snapshot agent.GameSnapshot) float64 {
 
-    // If no allied snakes are alive, return minimum score
-    if len(allySnakes) == 0 {
-        return 0.0
+
+    
+    var totalOpenSpace float64 = 0.0
+    for _, snake := range snapshot.Snakes() {
+        openSpace := countOpenSpace(snake, snapshot)
+        totalOpenSpace += float64(openSpace)
     }
-
-    for _, snake := range allySnakes {
-        if !snake.Alive() {
-            continue
-        }
-
-        // Count the number of forward moves available
-        moves := snake.ForwardMoves()
-        moveCount := len(moves)
-
-        // Score based on available moves:
-        // 1 move = 1 point (narrow corridor)
-        // 2 moves = 4 points (corner or wider corridor)
-        // 3 moves = 9 points (open space with one blocked direction)
-        // 4 moves = 16 points (completely open space)
-        // We square the number of moves to create a stronger preference
-        // for more open spaces
-        totalScore += float64(moveCount * moveCount)
-    }
-
-    return totalScore
+    return totalOpenSpace / float64(len(snapshot.Snakes()))
 }
+
+func countOpenSpace(snake agent.Snake, snapshot agent.GameSnapshot) int {
+    openSpace := 0
+    for _, direction := range []agent.Direction{agent.Up, agent.Down, agent.Left, agent.Right} {
+        nextHead := snake.Head.Move(direction)
+        if nextHead.IsPassable() && snapshot.Board()[nextHead.Y][nextHead.X] == agent.Empty {
+            openSpace++
+        }
+    }
+    return openSpace
+    }
+
