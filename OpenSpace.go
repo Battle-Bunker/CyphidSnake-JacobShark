@@ -23,7 +23,7 @@ func HeuristicOpenSpaceFloodFill(snapshot agent.GameSnapshot) float64 {
 
 func countOpenSpace(snake agent.SnakeSnapshot, snapshot agent.GameSnapshot) int {
     openSpace := 0
-    for _, direction := range []agent.Direction{agent.Up, agent.Down, agent.Left, agent.Right} {
+    for _, direction := range []string{"up", "down", "left", "right"} {
         nextHead := snake.Head.Move(direction)
         if nextHead.IsPassable() && snapshot.Board()[nextHead.Y][nextHead.X] == agent.Empty {
             openSpace++
