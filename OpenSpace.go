@@ -17,7 +17,7 @@ func HeuristicOpenSpaceFloodFill(snapshot agent.GameSnapshot) float64 {
 			continue
 		}
 		// Use flood fill to calculate reachable spaces
-		openSpace := floodFill(snapshot, snake.Head(), makeOccupiedMap(snapshot))
+		openSpace := floodFillOpenSpace(snapshot, snake.Head(), makeOccupiedMap(snapshot))
 		totalOpenSpace += float64(openSpace)
 	}
 	
@@ -28,7 +28,7 @@ func HeuristicOpenSpaceFloodFill(snapshot agent.GameSnapshot) float64 {
 	return totalOpenSpace / float64(numSnakes)
 }
 
-func floodFill(snapshot agent.GameSnapshot, start rules.Point, occupied map[rules.Point]bool) int {
+func floodFillOpenSpace(snapshot agent.GameSnapshot, start rules.Point, occupied map[rules.Point]bool) int {
 	if occupied[start] {
 		return 0
 	}
@@ -54,7 +54,7 @@ func floodFill(snapshot agent.GameSnapshot, start rules.Point, occupied map[rule
 		if next.X >= 0 && next.X < snapshot.Width() &&
 			next.Y >= 0 && next.Y < snapshot.Height() &&
 			!occupied[next] {
-			count += floodFill(snapshot, next, occupied)
+			count += floodFillOpenSpace(snapshot, next, occupied)
 		}
 	}
 
