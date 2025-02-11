@@ -25,7 +25,14 @@ func HeuristicFoodProximity(snapshot agent.GameSnapshot) float64 {
 	// Calculate the score.  The score is higher when the snake is closer to food,
 	// and is also influenced by the snake's health. A healthier snake might get
 	// a slightly higher score.
-	return 100.0 / (biggestMD + 1) * (1 - float64(snapshot.You().Health()) / 100)
+	turnMultiplier := 1 - (0.4 * float64(snapshot.Turn()) / 150)
+	if turnMultiplier < 0.3 {
+		turnMultiplier = 0.3
+		
+	}
+	healthAgressivness := 0.3 // The higher the value, the more desperate it is
+	return 100.0 / (biggestMD + 1) * (1 - float64(snapshot.You().Health()) / (100*healthAgressivness) * turnMultiplier)
+
 }
 
 // manhattanDistance calculates the Manhattan distance between two points
