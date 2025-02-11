@@ -74,7 +74,7 @@ func FloodFill(startX, startY int, board *Board) []Point {
 						}
 
 						// Get the cell at the new position
-						cell := board.GetCell(newX, newY)
+						cell := board.Cells[newX][newY]
 
 						// Check if the cell is passable
 						if cell.IsPassable() {
@@ -90,34 +90,12 @@ func FloodFill(startX, startY int, board *Board) []Point {
 
 // IsCellFree determines if a cell at (x, y) is free from walls and snake bodies.
 func IsCellFree(x, y int, board *Board) bool {
-		cell := board.GetCell(x, y)
+		cell := board.Cells[x][y]
 		return cell.IsPassable()
 }
 
 // AnalyzeTerritory analyzes the territory around the snake's head using Flood Fill.
 func AnalyzeTerritory(board *Board, mySnake agent.SnakeSnapshot) []Point {
 		head := mySnake.Head()
-		safeArea := FloodFill(head.X, head.Y, board)
-		return safeArea
-}
-
-func main() {
-		// Example usage:
-		// Assume we have a GameSnapshot 'gameSnapshot' from the game state.
-
-		// Convert GameSnapshot to BoardState
-		boardState := agent.ConvertToBoardState(gameSnapshot)
-
-		// Create a Board instance
-		board := agent.NewBoard(boardState)
-
-		// Assume 'mySnake' is obtained from the gameSnapshot
-		var mySnake agent.SnakeSnapshot
-		// Initialize mySnake appropriately...
-
-		// Analyze territory around the snake's head
-		safeArea := AnalyzeTerritory(board, mySnake)
-
-		// Use 'safeArea' for strategic decisions
-		// For example, decide the next move based on reachable cells
+		return FloodFill(head.X, head.Y, board)
 }
