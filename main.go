@@ -39,7 +39,7 @@ func main() {
 		agent.NewHeuristic(1, "food", HeuristicFoodProximity),
 		agent.NewHeuristic(1, "Space to move around in", HeuristicMoveSpace),
 		agent.NewHeuristic(1, "Self Instant Death", HeuristicInstantDeath),
-		agent.NewHeuristic(100, "Open Space", HeuristicOpenSpaceFloodFill),
+		agent.NewHeuristic(100, "Open Space", HeuristicFloodFill),
 		agent.NewHeuristic(1, "Edge Discourage", HeuristicEdgeAvoidance),
 		agent.NewHeuristic(1, "Head to head", HeuristicHeadToHead),
 	)
