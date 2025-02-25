@@ -3,6 +3,7 @@ package main
 import (
   "github.com/Battle-Bunker/cyphid-snake/agent"
   _ "github.com/BattlesnakeOfficial/rules"
+  "fmt"
 )
 
 func HeuristicSnakeAntiCramming(snapshot agent.GameSnapshot) float64 {
@@ -106,16 +107,16 @@ func HeuristicSnakeAntiCramming(snapshot agent.GameSnapshot) float64 {
   corner_1_total := corner_1_fraction_Y + corner_1_fraction_X
 
 
-  corner_2_fraction_Y := corner_2_value / float64(snapshot.You().Head().Y/snapshot.Height())
-  corner_2_fraction_X := corner_2_value / float64(snapshot.You().Head().X/snapshot.Width())
+  corner_2_fraction_Y := corner_2_value / (float64(snapshot.You().Head().Y) / float64(snapshot.Height()))
+  corner_2_fraction_X := corner_2_value / (float64(snapshot.You().Head().X) / float64(snapshot.Width()))
   corner_2_total := corner_2_fraction_Y + corner_2_fraction_X
   
-  corner_3_fraction_Y := corner_3_value / float64(snapshot.You().Head().Y/snapshot.Height())
-  corner_3_fraction_X := corner_3_value / float64(snapshot.You().Head().X/snapshot.Width())
+  corner_3_fraction_Y := corner_3_value / (float64(snapshot.You().Head().Y) / float64(snapshot.Height()))
+  corner_3_fraction_X := corner_3_value / (float64(snapshot.You().Head().X) / float64(snapshot.Width()))
   corner_3_total := corner_3_fraction_Y + corner_3_fraction_X
 
-  corner_4_fraction_Y := corner_4_value / float64(snapshot.You().Head().Y/snapshot.Height())
-  corner_4_fraction_X := corner_4_value / float64(snapshot.You().Head().X/snapshot.Width())
+  corner_4_fraction_Y := corner_4_value / (float64(snapshot.You().Head().Y) / float64(snapshot.Height()))
+  corner_4_fraction_X := corner_4_value / (float64(snapshot.You().Head().X) / float64(snapshot.Width()))
   corner_4_total := corner_4_fraction_Y + corner_4_fraction_X
 
   // var corners []float64 = []float64{corner_1_value, corner_2_value, corner_3_value, corner_4_value}
@@ -125,7 +126,9 @@ func HeuristicSnakeAntiCramming(snapshot agent.GameSnapshot) float64 {
 
   total := (corner_1_total + corner_2_total + corner_3_total + corner_4_total) / 4 // average the results
   if total == 0 {
-    // add some logging here idk
+  // if 0 == 0 {
+    fmt.Println("From snake density: \033[31mTotal is 0\033[0m")
+
   }
   
 

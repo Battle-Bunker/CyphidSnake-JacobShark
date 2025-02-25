@@ -36,17 +36,17 @@ func main() {
 		// agent.NewHeuristic(90, "Edge Discourage", HeuristicEdgeAvoidance),
 		// agent.NewHeuristic(50, "Head to head", HeuristicHeadToHead),
 
-		agent.NewHeuristic(30, "food", HeuristicFoodProximity),
+		agent.NewHeuristic(50, "food", HeuristicFoodProximity),
 		agent.NewHeuristic(10, "Space to move around in", HeuristicFloodFill),
-		agent.NewHeuristic(1, "Self Instant Death", HeuristicInstantDeath),
+		// agent.NewHeuristic(1, "Self Instant Death", HeuristicInstantDeath),
 		// agent.NewHeuristic(100, "Open Space", HeuristicFloodFill),
-		agent.NewHeuristic(100, "Edge Discourage", HeuristicEdgeAvoidance),
-		agent.NewHeuristic(10, "Head to head", HeuristicHeadToHead),
-		agent.NewHeuristic(5, "Snake Density", HeuristicSnakeAntiCramming),
+		agent.NewHeuristic(50, "Edge Discourage", HeuristicEdgeAvoidance),
+		agent.NewHeuristic(50, "Head to head", HeuristicHeadToHead),
+		agent.NewHeuristic(5, "Snake Density", HeuristicSnakeAntiCramming), //very high values, dont increase
 	)
 
 	snakeAgent := agent.NewSnakeAgent(portfolio, metadata,
-	agent.WithTemperature(5), // default 5
+	agent.WithTemperature(2.5), // default 5
 	agent.WithPerformanceLogging(false))
 	server := server.NewServer(snakeAgent)
 
