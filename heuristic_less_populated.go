@@ -101,8 +101,8 @@ func HeuristicSnakeAntiCramming(snapshot agent.GameSnapshot) float64 {
   // if you use this in a loop, you should be able to condense this code, ask an AI if it feels too complicated
   // totals = append(totals, int(corner_1_value))
 
-  corner_1_fraction_Y := corner_1_value / float64(snapshot.You().Head().Y/snapshot.Height())
-  corner_1_fraction_X := corner_1_value / float64(snapshot.You().Head().X/snapshot.Width())
+  corner_1_fraction_Y := corner_1_value / (float64(snapshot.You().Head().Y) / float64(snapshot.Height()))
+  corner_1_fraction_X := corner_1_value / (float64(snapshot.You().Head().X) / float64(snapshot.Width()))
   corner_1_total := corner_1_fraction_Y + corner_1_fraction_X
 
 
