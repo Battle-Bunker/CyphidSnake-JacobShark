@@ -12,5 +12,10 @@ func HeuristicHealth(snapshot agent.GameSnapshot) float64 {
 	for _, snake := range snapshot.YourTeam() {
 		totalHealth += snake.Health()
 	}
+	// remove yourself to make your health more important
+	totalHealth -= snapshot.You().Health()
+	// add your self, but multiply by 3 to  make more important
+	totalHealth += snapshot.You().Health() * 3
 	return float64(totalHealth)
 }
+

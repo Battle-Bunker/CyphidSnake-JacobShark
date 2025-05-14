@@ -1,4 +1,7 @@
 package main
+// THis snake sucks, DO not attempt to work on it
+// Please update this counter as a warnin g for the next dev:
+// hours wasted = 50
 
 import (
 
@@ -12,11 +15,13 @@ func main() {
 	metadata := client.SnakeMetadataResponse{
 		APIVersion: "1",
 		Author:     "jacobstr",
-		Color:      "#c35817",
+		Color:      "#FFFFFF",
+		// Color:      "#a30303",
+		// Color:      "#c35817",
 		// Color:      "#4dcc8e",
 		// Color:      "#3b210a",
 		Head:       "default",
-		Tail:       "train",
+		Tail:       "replit-notmark",
 	}
 
 	// portfolio := agent.NewPortfolio(
@@ -28,7 +33,6 @@ func main() {
 	// )
 
 	portfolio := agent.NewPortfolio(
-		// agent.NewHeuristic(5, "team-health", HeuristicHealth),
 		// agent.NewHeuristic(100, "food", HeuristicFoodProximity),
 		// agent.NewHeuristic(100, "Space to move around in", HeuristicMoveSpace),
 		// agent.NewHeuristic(170, "Self Instant Death", HeuristicInstantDeath),
@@ -36,18 +40,20 @@ func main() {
 		// agent.NewHeuristic(90, "Edge Discourage", HeuristicEdgeAvoidance),
 		// agent.NewHeuristic(50, "Head to head", HeuristicHeadToHead),
 
-		agent.NewHeuristic(50, "food", HeuristicFoodProximity),
-		agent.NewHeuristic(10, "Space to move around in", HeuristicFloodFill),
+		agent.NewHeuristic(5, "team-health", HeuristicHealth),
+		agent.NewHeuristic(10, "food", HeuristicFoodProximity),
+		// agent.NewHeuristic(5, "Space to move around in", HeuristicFloodFill),
 		// agent.NewHeuristic(1, "Self Instant Death", HeuristicInstantDeath),
-		// agent.NewHeuristic(100, "Open Space", HeuristicFloodFill),
-		agent.NewHeuristic(50, "Edge Discourage", HeuristicEdgeAvoidance),
-		agent.NewHeuristic(50, "Head to head", HeuristicHeadToHead),
-		agent.NewHeuristic(5, "Snake Density", HeuristicSnakeAntiCramming), //very high values, dont increase
+		agent.NewHeuristic(5, "Open Space", HeuristicFloodFill),
+		agent.NewHeuristic(10, "Edge Discourage", HeuristicEdgeAvoidance),
+		agent.NewHeuristic(5, "Head to head", HeuristicHeadToHead),
+		agent.NewHeuristic(3, "Snake Density", HeuristicSnakeAntiCramming), //very high values, dont increase
+		// agent.NewHeuristic(0.1, "Minimum Floodfill for closest enemy", MinFLoodfillForEnemy),
 	)
 
 	snakeAgent := agent.NewSnakeAgent(portfolio, metadata,
-	agent.WithTemperature(2.5), // default 5
-	agent.WithPerformanceLogging(false))
+	agent.WithTemperature(2), // default 5
+	agent.WithPerformanceLogging(true))
 	server := server.NewServer(snakeAgent)
 
 	server.Start()

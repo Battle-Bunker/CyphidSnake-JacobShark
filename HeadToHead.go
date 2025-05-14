@@ -8,6 +8,8 @@ import (
 // heuristicHealth calculates the sum of health for all snakes in your team,
 // including the player's snake.
 // Calculates all of the health of all the agents in your team and returns it as an integer. (written by Jacob)
+// TODO: Make sure that cells that have already been counted aren';t counted again
+// TODO: make it return cells that have head to head possibility / possible move count
 func HeuristicHeadToHead(snapshot agent.GameSnapshot) float64 {
   var totalOverlap float64
   for _, snake := range snapshot.Snakes() {
@@ -31,7 +33,7 @@ func HeuristicHeadToHead(snapshot agent.GameSnapshot) float64 {
         }
       }
     }
-    totalOverlap += float64(overlap/4) * -10
+    totalOverlap += float64(overlap) * -10
 
 
 

@@ -1,5 +1,5 @@
 run = "go run ."
-modules = ["go-1.21", "nix"]
+modules = ["nix", "python-3.11", "go-1.23"]
 
 [nix]
 channel = "stable-24_05"

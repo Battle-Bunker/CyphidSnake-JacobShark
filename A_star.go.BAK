@@ -1,0 +1,75 @@
+package main
+
+import (
+
+  "github.com/Battle-Bunker/cyphid-snake/agent"
+  "github.com/BattlesnakeOfficial/rules"
+  "math"
+)
+
+func aStarDistance(snapshot agent.GameSnapshot, start, goal rules.Point, occupancyGrid [][]bool) float64 {
+ 	openSet := make(priorityQueue, 0)
+ 	heap.Init(&openSet)
+ 	heap.Push(&openSet, &node{point: start, fScore: heuristic(start, goal)})
+
+ 	gScore := make(map[rules.Point]float64)
+ 	gScore[start] = 0
+
+ 	for openSet.Len() > 0 {
+ 		current := heap.Pop(&openSet).(*node)
+
+ 		if current.point == goal {
+ 			return gScore[goal]
+ 		}
+
+ 		for _, neighbor := range getNeighbors(snapshot, current.point, occupancyGrid) {
+ 			tentativeGScore := gScore[current.point] + 1
+
+ 			if _, exists := gScore[neighbor]; !exists || tentativeGScore < gScore[neighbor] {
+ 				gScore[neighbor] = tentativeGScore
+ 				fScore := tentativeGScore + heuristic(neighbor, goal)
+ 				heap.Push(&openSet, &node{point: neighbor, fScore: fScore})
+ 			}
+ 		}
+ 	}
+
+ 	return math.Inf(1) // No path found
+ }
+
+ func getNeighbors(snapshot agent.GameSnapshot, p rules.Point, occupancyGrid [][]bool) []rules.Point {
+ 	neighbors := make([]rules.Point, 0, 4)
+ 	directions := [][2]int{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}
+
+ 	for _, dir := range directions {
+ 		newX, newY := p.X+dir[0], p.Y+dir[1]
+ 		newPoint := rules.Point{X: newX, Y: newY}
+ 		if !isOutOfBounds(newPoint, snapshot.Width(), snapshot.Height()) && !occupancyGrid[newX][newY] {
+ 			neighbors = append(neighbors, newPoint)
+ 		}
+ 	}
+ 	return neighbors
+ }
+
+ func heuristic(a, b rules.Point) float64 {
+ 	dx, dy := float64(a.X-b.X), float64(a.Y-b.Y)
+ 	return math.Sqrt(dx*dx + dy*dy)
+ }
+
+ type node struct {
+ 	point  rules.Point
+ 	fScore float64
+ }
+
+ type priorityQueue []*node
+
+ func (pq priorityQueue) Len() int            { return len(pq) }
+ func (pq priorityQueue) Less(i, j int) bool  { return pq[i].fScore < pq[j].fScore }
+ func (pq priorityQueue) Swap(i, j int)       { pq[i], pq[j] = pq[j], pq[i] }
+ func (pq *priorityQueue) Push(x interface{}) { *pq = append(*pq, x.(*node)) }
+ func (pq *priorityQueue) Pop() interface{} {
+ 	old := *pq
+ 	n := len(old)
+ 	item := old[n-1]
+ 	*pq = old[0 : n-1]
+ 	return item
+ }

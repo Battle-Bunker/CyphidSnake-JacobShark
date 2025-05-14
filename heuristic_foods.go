@@ -16,26 +16,55 @@ func HeuristicFoodProximity(snapshot agent.GameSnapshot) float64 {
 	// Find the closest food to the snake's head
 	for i := range snapshot.Food() {
 		food := snapshot.Food()[i]
-		distance := manhattanDistance(rules.Point{X: snapshot.You().Head().X, Y: snapshot.You().Head().Y}, food)
-		if distance < biggestMD {
-			biggestMD = distance
+		distance := ManhattanDistance(snapshot.You().Head(), food)
+		if float64(distance) < biggestMD {
+			biggestMD = float64(distance)
 		}
 	}
 
 	// Calculate the score.  The score is higher when the snake is closer to food,
 	// and is also influenced by the snake's health. A healthier snake might get
 	// a slightly higher score.
-	turnMultiplier := 1 - (0.4 * float64(snapshot.Turn()) / 150)
-	if turnMultiplier < 0.3 {
-		turnMultiplier = 0.3
-		
+	// turnMultiplier := 1 - (0.4 * float64(snapshot.Turn()) / 150)
+
+	// Assuming that snapshot.AllSnakes() returns a slice of all snakes and 
+	// each snake has an IsAlive() method to check if a snake is alive.
+	var aliveSnakes float64 = 0
+	for _, snake := range snapshot.AllSnakes() {
+		if snake.Alive() { // Check if the snake is alive.
+			aliveSnakes++
+		}
 	}
+	
+	snakeMultiplier := 1.0
+	totalSnakes := float64(len(snapshot.AllSnakes()))
+	if totalSnakes > 0 {
+		snakeFraction := float64(aliveSnakes/totalSnakes)
+		if snakeFraction == 1 { // everyone is in
+			snakeMultiplier = 0.5
+		} else if snakeFraction >= 5/6 {
+			snakeMultiplier = 0.4
+		} else if snakeFraction >= 4/6 {
+			snakeMultiplier = 0.3
+		} else if aliveSnakes >= 3/6 { // half the snakes are dead
+			snakeMultiplier = 0.2
+		} else if aliveSnakes >= 2/6 {
+			snakeMultiplier = 0.2
+			
+		}
+	}
+	
+	
 	healthAgressivness := 0.3 // The higher the value, the more desperate it is
-	return 100.0 / (biggestMD + 1) * (1 - float64(snapshot.You().Health()) / (100*healthAgressivness) * turnMultiplier)
+	return ((100.0 / (biggestMD + 1) * (1 - float64(snapshot.You().Health()) / (100*healthAgressivness) * snakeMultiplier)) / 11) * float64(snapshot.Height())
 
 }
 
-// manhattanDistance calculates the Manhattan distance between two points
-func manhattanDistance(p1, p2 rules.Point) float64 {
-	return math.Abs(float64(p1.X-p2.X)) + math.Abs(float64(p1.Y-p2.Y))
+
+
+
+// ManhattanDistance calculates the Manhattan distance between two points.
+func ManhattanDistance(point1, point2 rules.Point) int {
+    return int(math.Abs(float64(point1.X-point2.X)) + math.Abs(float64(point1.Y-point2.Y)))
 }
+
