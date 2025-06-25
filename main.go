@@ -15,7 +15,7 @@ func main() {
 	metadata := client.SnakeMetadataResponse{
 		APIVersion: "1",
 		Author:     "jacobstr",
-		Color:      "#FFFFFF",
+		Color:      "#FF0000",
 		// Color:      "#a30303",
 		// Color:      "#c35817",
 		// Color:      "#4dcc8e",
@@ -41,7 +41,7 @@ func main() {
 		// agent.NewHeuristic(50, "Head to head", HeuristicHeadToHead),
 
 		agent.NewHeuristic(5, "team-health", HeuristicHealth),
-		agent.NewHeuristic(10, "food", HeuristicFoodProximity),
+		agent.NewHeuristic(20, "food", HeuristicFoodProximity),
 		// agent.NewHeuristic(5, "Space to move around in", HeuristicFloodFill),
 		// agent.NewHeuristic(1, "Self Instant Death", HeuristicInstantDeath),
 		agent.NewHeuristic(5, "Open Space", HeuristicFloodFill),

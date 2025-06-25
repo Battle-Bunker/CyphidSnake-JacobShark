@@ -1,8 +1,8 @@
 run = "go run ."
-modules = ["nix", "python-3.11", "go-1.23"]
+modules = ["go-1.21", "nix"]
 
 [nix]
-channel = "stable-24_05"
+channel = "stable-23_11"
 
 [gitHubImport]
 requiredFiles = [".replit"]

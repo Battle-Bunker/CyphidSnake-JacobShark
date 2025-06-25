@@ -1,0 +1,57 @@
+package main
+
+import (
+  "github.com/Battle-Bunker/cyphid-snake/agent"
+)
+
+// heuristicHealth calculates the sum of health for all snakes in your team,
+// including the player's snake.
+// Calculates all of the health of all the agents in your team and returns it as an integer. (written by jacob)
+func HeuristicTrapOnEdge(snapshot agent.GameSnapshot) float64 {
+  // Condition 0. We are close enough to the edge (2 blocks away)
+  // Condition 1. A snake is on the same edge that we are closest to.
+  // Find what Edge we are closest to
+  left_edge := snapshot.You().Head().X - 0
+  right_edge := (snapshot.Width() - 1) - snapshot.You().Head().X
+  top_edge := snapshot.You().Head().Y - 0
+  bottom_edge := (snapshot.Height() - 1) - snapshot.You().Head().Y
+
+  // Search through all the snakes and see if any of them are on the same edge
+  for _, snake := range snapshot.Snakes() {
+    // Is the snake on the left side?
+    if snake.Head().X == 0 {
+      if left_edge > 1 {
+        return left_edge
+      }
+    // Is the snake on the right side?
+    if snake.Head().X == 10 {
+      if right_edge > 1 {
+      return right_edge
+      }
+    // Is the snake on the top?
+    if snake.Head().Y = 10 {
+      if top_edge > 1 {
+        return top_edge
+      }
+    } els
+    // Is the snake on the bottom?
+    if snake.Head().Y == 1 {
+      if bottom_edge > 1 {
+        return bottom_edge
+      }
+    }
+    }
+    }
+    }
+  }
+
+  // This will only run if there is no snake on the edge
+  // are any of the edges 2 or less? EDIT: i want it to go to the edge if there is a snake there, so ive changed it to be 15
+  // if left_edge <= 15 || right_edge <= 15 || top_edge <= 15 || bottom_edge <= 15 {
+  //   closest_edge := min(left_edge, right_edge, top_edge, bottom_edge)
+  // return float64(closest_edge)
+  // }
+  return 0
+  
+}
+
