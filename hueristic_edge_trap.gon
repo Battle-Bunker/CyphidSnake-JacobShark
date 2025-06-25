@@ -4,6 +4,8 @@ import (
   "github.com/Battle-Bunker/cyphid-snake/agent"
 )
 
+// might be useful to track how much of the edge you 'control', such as how many tiles your snake covers in the row/column
+
 // heuristicHealth calculates the sum of health for all snakes in your team,
 // including the player's snake.
 // Calculates all of the health of all the agents in your team and returns it as an integer. (written by jacob)
@@ -19,38 +21,29 @@ func HeuristicTrapOnEdge(snapshot agent.GameSnapshot) float64 {
   // Search through all the snakes and see if any of them are on the same edge
   for _, snake := range snapshot.Snakes() {
     // Is the snake on the left side?
-    if snake.Head().X == 0 {
-      if left_edge > 1 {
-        return left_edge
-      }
+    if snake.Head().X == 0 && left_edge > 1 {
+      return float64(left_edge)
     // Is the snake on the right side?
-    if snake.Head().X == 10 {
-      if right_edge > 1 {
-      return right_edge
-      }
+    } else if snake.Head().X == 10 && right_edge > 1 {
+      return float64(right_edge)
     // Is the snake on the top?
-    if snake.Head().Y = 10 {
+    } else if snake.Head().Y == 10 && top_edge > 1 {
       if top_edge > 1 {
-        return top_edge
+        return float64(top_edge)
       }
-    } els
     // Is the snake on the bottom?
-    if snake.Head().Y == 1 {
+    } else if snake.Head().Y == 1 {
       if bottom_edge > 1 {
-        return bottom_edge
+        return float64(bottom_edge)
       }
-    }
-    }
-    }
     }
   }
+  closest_edge := min(left_edge, right_edge, top_edge, bottom_edge)
 
-  // This will only run if there is no snake on the edge
-  // are any of the edges 2 or less? EDIT: i want it to go to the edge if there is a snake there, so ive changed it to be 15
-  // if left_edge <= 15 || right_edge <= 15 || top_edge <= 15 || bottom_edge <= 15 {
-  //   closest_edge := min(left_edge, right_edge, top_edge, bottom_edge)
-  // return float64(closest_edge)
-  // }
+  if reflect.TypeOf(closest_edge) == "float64" {
+    return float64(closest_edge)
+  }
+  fmt.Println("closest_edge is empty!")
   return 0
   
 }
